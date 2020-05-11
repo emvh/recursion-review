@@ -5,7 +5,7 @@
 
 var stringifyJSON = function(obj) {
   // var result = '';
-// if input is a number:
+  // if input is a number:
   if (typeof obj === 'number') {
     return '' + obj;
   }
@@ -15,16 +15,37 @@ var stringifyJSON = function(obj) {
   //   return null
   // }
   // if input is Null
-    if (obj === null) {
+  if (obj === null) {
       return 'null'
   }
-// if input is boolean
+  // if input is boolean
   if (typeof obj === 'boolean') {
     return '' + obj
   }
-// if input is string
-// if input is an array
-// if the input is an obj
+  // if input is string
+  if (typeof obj === 'string') {
+    return '"' + obj + '"';
+  }
+
+  var result = [];
+  // if input is an array
+  if (Array.isArray(obj)) {
+    // iterate over elements of array
+    for (var i = 0; i < obj.length; i++) {
+      result.push(stringifyJSON(obj[i]));
+    }
+    return '[' + result.join(',') + ']';
+  }
+
+  // if the input is an obj
+  if (typeof obj === 'object') {
+    for (var key in obj) {
+      if (typeof obj === 'function' || obj === undefined) {
+        continue;
+      }
+      return '{' + stringifyJSON(key) + ':' + stringifyJSON(obj[key]) + '}';
+    }
+  }
 
   // your code goes here
   // return result;
