@@ -28,6 +28,7 @@ var stringifyJSON = function(obj) {
   }
 
   var result = [];
+
   // if input is an array
   if (Array.isArray(obj)) {
     // iterate over elements of array
@@ -40,12 +41,17 @@ var stringifyJSON = function(obj) {
   // if the input is an obj
   if (typeof obj === 'object') {
     for (var key in obj) {
-      if (typeof obj === 'function' || obj === undefined) {
+      // debugger;
+      if (typeof obj[key] === 'function' || obj[key] === undefined) {
         continue;
+      } else {
+        result.push( stringifyJSON(key) + ':' + stringifyJSON(obj[key]));
       }
-      return '{' + stringifyJSON(key) + ':' + stringifyJSON(obj[key]) + '}';
     }
+    return '{' + result.join(',') + '}';
   }
+
+
 
   // your code goes here
   // return result;
